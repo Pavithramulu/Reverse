@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+
+class Reversed_Character extends StatefulWidget {
+  const Reversed_Character({super.key});
+
+  @override
+  State<Reversed_Character> createState() => _Reversed_CharacterState();
+}
+
+class _Reversed_CharacterState extends State<Reversed_Character> {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Reversed Text Example',
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text('Reversed Text Example')),
+        backgroundColor: Colors.blue,
+      ),
+      backgroundColor: Colors.pink.shade100,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: MyForm(),
+        ),
+      ),
+    );
+  }
+}
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  final TextEditingController _textEditingController = TextEditingController();
+  String reversedText = "";
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  void reverseText() {
+    String enteredText = _textEditingController.text;
+    List<String> words = enteredText.split(' ');
+    List<String> reversedWords = List.from(words.reversed);
+    reversedText = reversedWords.join(' ');
+
+    var input = '$reversedText'; // to add reverse
+    reversedText = String.fromCharCodes(input.runes.toList().reversed);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextFormField(
+          controller: _textEditingController,
+          decoration: const InputDecoration(
+            labelText: 'Enter your text',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              reverseText();//for reverse text
+            });
+          },
+          child: const Text('Submit'),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Reversed Text: $reversedText',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+}
